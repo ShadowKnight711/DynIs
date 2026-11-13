@@ -1,0 +1,953 @@
+﻿/* ── Ink & Glass: the island's design tokens and material (DynIs 1.9) ──
+   One living capsule. The island is always dark; colour is reserved for
+   signals, and every signal colour sits next to an icon or text. */
+
+:root {
+	--ink: #000000;
+	--glass: rgba(18, 18, 22, 0.55); /* reserved for glass surfaces (later) */
+	--label: #ffffff;
+	--label-2: rgba(235, 235, 245, 0.6);
+	--label-3: rgba(235, 235, 245, 0.3); /* decorative / disabled only */
+	--fill: rgba(120, 120, 128, 0.32);
+
+	/* One colour = one meaning. */
+	--signal-timer: #ff9f0a;
+	--signal-positive: #30d158; /* charging, connected */
+	--signal-alert: #ff453a; /* recording, low battery, mic */
+	--signal-focus: #bf5af2; /* focus / do not disturb */
+	--signal-transfer: #0a84ff; /* downloads, transfers */
+
+	--font-text: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+	--font-display: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+
+	--type-display: 600 28px/1.1 var(--font-display);
+	--type-title: 600 15px/1.25 var(--font-text);
+	--type-body: 400 13px/1.35 var(--font-text);
+	--type-caption: 500 11px/1.3 var(--font-text);
+
+	--island-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+	--island-shadow-lift: 0 12px 40px rgba(0, 0, 0, 0.45);
+	--island-hairline: rgba(255, 255, 255, 0.08);
+	--focus-ring: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Ink material ── */
+.bloom.ink {
+	font-family: var(--font-text);
+	font-size: 13px;
+	font-feature-settings: "tnum" 1;
+}
+
+/* Soft drop shadow under the capsule (behind the surface). */
+.bloom.ink::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	border-radius: inherit;
+	box-shadow: var(--island-shadow);
+	pointer-events: none;
+	transition: box-shadow 0.25s ease;
+}
+
+.bloom.ink.expanded::before {
+	box-shadow: var(--island-shadow-lift);
+}
+
+/* 1px inner hairline that defines the edge against dark wallpapers. */
+.bloom.ink::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	border-radius: inherit;
+	box-shadow: inset 0 0 0 1px var(--island-hairline);
+	pointer-events: none;
+}
+
+/* Collapsed row: 32px capsule, 13px semibold tabular text. */
+.bloom.ink .main-row {
+	height: 32px;
+}
+
+.bloom.ink .main-row .time,
+.bloom.ink .main-row .label {
+	font-family: var(--font-text);
+	font-size: 13px;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+
+/* ── Split: the second activity is a 32px droplet beside the pill ── */
+.screen .activity-bubble {
+	min-width: 32px;
+	height: 32px;
+	border-radius: 16px;
+}
+
+.screen.edge-top .activity-bubble {
+	top: 6px;
+}
+
+.screen.edge-bottom .activity-bubble {
+	top: -6px;
+}
+
+.activity-bubble.shelf-bubble {
+	font: var(--type-caption);
+	font-weight: 600;
+}
+
+/* ── Classic notch style: attached to the edge, no float shadow ── */
+.bloom.ink.island-notch::before,
+.bloom.ink.island-notch::after {
+	display: none;
+}
+
+.bloom.ink.island-notch .main-row {
+	height: 36px;
+}
+
+.screen.style-notch.edge-top .activity-bubble {
+	top: 3px;
+}
+
+.screen.style-notch.edge-bottom .activity-bubble {
+	top: 3px;
+}
+
+/* ── Accessibility ── */
+.bloom.ink :focus-visible,
+.activity-bubble:focus-visible {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+/* Transparency effects off: solid Ink everywhere. */
+@media (prefers-reduced-transparency: reduce) {
+	.bloom.ink {
+		--surface-bg: var(--ink) !important;
+	}
+}
+
+/* High contrast: system colours and a 2px outline. */
+@media (forced-colors: active) {
+	.bloom.ink {
+		--surface-bg: Canvas !important;
+		color: CanvasText;
+		outline: 2px solid #ffffff;
+		outline-offset: -2px;
+	}
+
+	.bloom.ink::before,
+	.bloom.ink::after {
+		display: none;
+	}
+}
+
+/* Long titles that don't scroll fade out instead of being cut off hard. */
+.premium-title-wrap {
+	-webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent);
+	mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent);
+}
+
+/* Clip every layer to the island's corners, including during animation. */
+.bloom.ink.island-pill {
+	isolation: isolate;
+}
+
+/* ═════ Capsule panels (1.9.1). Classic keeps its previous look. ═════ */
+
+/* ── Music: art left, title/artist/progress beside it, controls below ── */
+.island-pill .compact-premium-layout {
+	display: grid;
+	grid-template-columns: 64px minmax(0, 1fr);
+	grid-template-rows: auto auto auto;
+	column-gap: 12px;
+	row-gap: 8px;
+	align-items: center;
+	padding: 16px 4px 12px;
+	box-sizing: border-box;
+}
+
+.island-pill .album-art-section {
+	grid-column: 1;
+	grid-row: 1 / span 2;
+}
+
+.island-pill .premium-album-art {
+	width: 64px;
+	height: 64px;
+	border-radius: 12px;
+	box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.1);
+	border: none;
+}
+
+.island-pill .metadata-controls-section-middle {
+	display: contents;
+}
+
+.island-pill .track-header-row {
+	grid-column: 2;
+	grid-row: 1;
+	align-self: end;
+}
+
+.island-pill .premium-title {
+	font: var(--type-title);
+	letter-spacing: 0;
+}
+
+.island-pill .premium-artist {
+	font: var(--type-body);
+	color: var(--label-2);
+}
+
+.island-pill .music-progress {
+	grid-column: 2;
+	grid-row: 2;
+	align-self: start;
+}
+
+.island-pill .controls-row-sleek {
+	grid-column: 1 / -1;
+	grid-row: 3;
+	gap: 16px;
+}
+
+.island-pill .controls-row-sleek .sleek-btn {
+	min-width: 32px;
+	min-height: 32px;
+}
+
+/* Volume moves to the HUD. */
+.island-pill .volume-slider-container {
+	display: none;
+}
+
+.music-progress {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	width: 100%;
+}
+
+.music-progress-track {
+	height: 4px;
+	border-radius: 2px;
+	background: var(--fill);
+	overflow: hidden;
+}
+
+.music-progress-fill {
+	width: 100%;
+	height: 100%;
+	border-radius: 2px;
+	background: var(--label);
+	transform-origin: left center;
+	/* transform, not width: no layout on every tick. */
+	transition: transform 0.5s linear;
+}
+
+.music-progress-times {
+	display: flex;
+	justify-content: space-between;
+	font: var(--type-caption);
+	font-variant-numeric: tabular-nums;
+	color: var(--label-2);
+}
+
+/* ── Command Center: flat fill tiles, signal-coloured state ── */
+.island-pill .cc-pills-grid {
+	height: auto;
+	gap: 8px;
+}
+
+.island-pill .cc-pill-tile {
+	height: 44px;
+	padding: 6px 10px;
+	gap: 10px;
+	border-radius: 14px;
+	border: none;
+	background: var(--fill);
+}
+
+.island-pill .cc-pill-tile:hover {
+	background: rgba(120, 120, 128, 0.44);
+	transform: none;
+}
+
+.island-pill .cc-pill-icon-wrapper {
+	width: 28px;
+	height: 28px;
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--label);
+}
+
+.island-pill .cc-pill-icon-wrapper svg {
+	width: 15px;
+	height: 15px;
+}
+
+.island-pill .cc-pill-title {
+	font: var(--type-caption);
+	font-weight: 600;
+	color: var(--label);
+}
+
+.island-pill .cc-pill-status {
+	font: var(--type-caption);
+	color: var(--label-2);
+}
+
+/* "On" is shown by the icon, not by inverting the whole tile. */
+.island-pill .cc-pill-tile.active {
+	background: var(--fill);
+	border: none;
+}
+
+.island-pill .cc-pill-tile.active .cc-pill-title {
+	color: var(--label);
+}
+
+.island-pill .cc-pill-tile.active .cc-pill-status {
+	color: var(--label-2);
+}
+
+.island-pill .cc-pill-tile.active .cc-pill-icon-wrapper {
+	background: var(--label);
+	color: var(--ink);
+}
+
+.island-pill .cc-pill-tile.tile-connect.active .cc-pill-icon-wrapper {
+	background: var(--signal-positive);
+	color: var(--ink);
+}
+
+.island-pill .cc-pill-tile.active .cc-pill-more {
+	color: var(--label);
+}
+
+.island-pill .cc-circular-btn {
+	width: 32px;
+	height: 32px;
+	border: none;
+	background: var(--fill);
+	color: var(--label-2);
+}
+
+.island-pill .cc-circular-btn.active {
+	background: var(--label);
+	color: var(--ink);
+	box-shadow: none;
+}
+
+.island-pill .cc-circular-btn.btn-focus.active {
+	background: var(--signal-focus);
+	color: var(--label);
+}
+
+.island-pill .cc-classic-slider-row {
+	height: 20px;
+}
+
+.island-pill .cc-classic-slider-label {
+	font: var(--type-caption);
+	color: var(--label-2);
+}
+
+.island-pill .cc-classic-slider-track {
+	height: 12px;
+	border-radius: 6px;
+	background: var(--fill);
+}
+
+/* ── Calendar and timer ── */
+.island-pill .calendar-timer-content,
+.island-pill .calendar-container {
+	font-family: var(--font-text);
+}
+
+.island-pill .day-name {
+	font: var(--type-caption);
+	color: var(--label-2);
+	opacity: 1;
+}
+
+.island-pill .calendar-day {
+	font: var(--type-caption);
+	font-variant-numeric: tabular-nums;
+	border-radius: 50%;
+}
+
+.island-pill .calendar-day.today {
+	background: var(--label);
+	color: var(--ink);
+	font-weight: 700;
+}
+
+.island-pill .roll-num {
+	font-family: var(--font-display);
+	font-size: 28px;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0;
+}
+
+.island-pill .timer-btn-play {
+	height: 36px;
+	border-radius: 18px;
+	font: var(--type-body);
+	font-weight: 600;
+}
+
+.island-pill .timer-preset-segment,
+.island-pill .timer-status {
+	font-size: 11px;
+}
+
+/* ── Level capsule: volume / brightness inside the island (1.9.2) ── */
+.level-capsule {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	height: 100%;
+	padding: 0 4px;
+	box-sizing: border-box;
+}
+
+.level-icon {
+	display: flex;
+	width: 20px;
+	justify-content: center;
+	color: var(--label);
+	flex: none;
+}
+
+.level-value {
+	min-width: 28px;
+	text-align: right;
+	font: 600 13px/1 var(--font-text);
+	font-variant-numeric: tabular-nums;
+	color: var(--label);
+	flex: none;
+}
+
+.level-slider {
+	--level: 50%;
+	flex: 1;
+	min-width: 0;
+	height: 12px;
+	margin: 0;
+	border-radius: 6px;
+	appearance: none;
+	-webkit-appearance: none;
+	background: linear-gradient(90deg, var(--label) var(--level), var(--fill) var(--level));
+	cursor: pointer;
+	outline: none;
+}
+
+.level-slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: transparent;
+	border: none;
+}
+
+.level-slider:focus-visible {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+.island-notch .level-slider {
+	height: 6px;
+	border-radius: 3px;
+}
+
+/* ═════ Customisable Command Center (1.9.5) ═════ */
+.command-center-content-minimal {
+	justify-content: flex-start;
+}
+
+.cc-grid-root {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+	position: relative;
+}
+
+.cc-grid-header {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	height: 28px;
+}
+
+.cc-grid-title {
+	flex: 1;
+	font: 600 11px/1 var(--font-text);
+	color: var(--label-2);
+	text-transform: uppercase;
+	letter-spacing: 0.4px;
+}
+
+.cc-header-btn {
+	min-width: 28px;
+	height: 28px;
+	padding: 0 8px;
+	border: none;
+	border-radius: 14px;
+	background: var(--fill);
+	color: var(--label);
+	font: 600 12px/1 var(--font-text);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.cc-header-btn.cc-header-done {
+	background: var(--label);
+	color: var(--ink);
+}
+
+/* Six columns: a large tile spans three, a small one one, a slider all six. */
+.cc-grid {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: 8px;
+	width: 100%;
+}
+
+.cc-cell {
+	position: relative;
+	box-sizing: border-box;
+	border-radius: 14px;
+	background: var(--fill);
+	color: var(--label);
+	cursor: pointer;
+	user-select: none;
+	display: flex;
+	align-items: center;
+	outline: none;
+	transition: background 0.15s ease;
+}
+
+.cc-cell:hover {
+	background: rgba(120, 120, 128, 0.44);
+}
+
+.cc-cell:focus-visible {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+.cc-cell-large {
+	grid-column: span 3;
+	height: 48px;
+	padding: 0 8px 0 10px;
+	gap: 10px;
+}
+
+.cc-cell-small {
+	grid-column: span 1;
+	height: 44px;
+	justify-content: center;
+}
+
+.cc-cell-slider {
+	grid-column: 1 / -1;
+	height: 36px;
+	padding: 0 12px;
+	cursor: default;
+}
+
+.cc-tile-icon {
+	width: 28px;
+	height: 28px;
+	flex: none;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--label);
+}
+
+.cc-tile-icon svg {
+	width: 15px;
+	height: 15px;
+}
+
+.cc-shortcut-icon {
+	width: 20px;
+	height: 20px;
+	object-fit: contain;
+}
+
+.cc-cell.active .cc-tile-icon {
+	background: var(--label);
+	color: var(--ink);
+}
+
+.cc-cell.active.signal-connect .cc-tile-icon {
+	background: var(--signal-positive);
+	color: var(--ink);
+}
+
+.cc-cell.active.signal-focus .cc-tile-icon {
+	background: var(--signal-focus);
+	color: var(--label);
+}
+
+.cc-tile-text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	flex: 1;
+	gap: 2px;
+}
+
+.cc-tile-title {
+	font: 600 12px/1.15 var(--font-text);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.cc-tile-status {
+	font: 500 11px/1.15 var(--font-text);
+	color: var(--label-2);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.cc-tile-more {
+	width: 28px;
+	height: 28px;
+	flex: none;
+	border: none;
+	border-radius: 14px;
+	background: transparent;
+	color: var(--label-2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.cc-tile-more:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: var(--label);
+}
+
+.cc-slider-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+}
+
+.cc-slider-icon {
+	display: flex;
+	width: 18px;
+	justify-content: center;
+	color: var(--label-2);
+}
+
+.cc-slider-icon svg {
+	width: 14px;
+	height: 14px;
+}
+
+.cc-slider-value {
+	min-width: 36px;
+	text-align: right;
+	font: 600 11px/1 var(--font-text);
+	font-variant-numeric: tabular-nums;
+	color: var(--label-2);
+}
+
+/* Edit mode: tiles jiggle gently and show their badges. */
+@keyframes cc-jiggle {
+	0%,
+	100% {
+		rotate: -0.8deg;
+	}
+	50% {
+		rotate: 0.8deg;
+	}
+}
+
+.cc-cell.editing {
+	animation: cc-jiggle 0.32s ease-in-out infinite;
+	cursor: grab;
+}
+
+.cc-cell.editing:nth-child(2n) {
+	animation-delay: -0.16s;
+}
+
+.cc-cell.editing-still {
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+	cursor: grab;
+}
+
+.cc-badge {
+	position: absolute;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	font: 700 11px/1 var(--font-text);
+	z-index: 3;
+}
+
+.cc-badge-remove {
+	top: -6px;
+	left: -6px;
+	background: var(--signal-alert);
+	color: #fff;
+}
+
+.cc-badge-size {
+	top: -6px;
+	right: -6px;
+	background: var(--label);
+	color: var(--ink);
+}
+
+.cc-sheet {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 6px;
+	max-height: 168px;
+	overflow-y: auto;
+	padding: 8px;
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.06);
+}
+
+.cc-sheet-apps {
+	grid-template-columns: 1fr;
+}
+
+.cc-sheet-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 32px;
+	padding: 2px 8px 2px 2px;
+	border: none;
+	border-radius: 10px;
+	background: transparent;
+	color: var(--label);
+	font: 500 12px/1.2 var(--font-text);
+	text-align: left;
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.cc-sheet-item:hover,
+.cc-sheet-item:focus-visible {
+	background: var(--fill);
+	outline: none;
+}
+
+.cc-sheet-apps .cc-sheet-item {
+	padding-left: 10px;
+}
+
+.cc-search {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	height: 30px;
+	padding: 0 8px;
+	border-radius: 10px;
+	background: var(--fill);
+	color: var(--label-2);
+}
+
+.cc-search input {
+	flex: 1;
+	min-width: 0;
+	border: none;
+	background: transparent;
+	color: var(--label);
+	font: 400 12px/1 var(--font-text);
+	outline: none;
+}
+
+.cc-search button {
+	border: none;
+	background: transparent;
+	color: var(--label-2);
+	cursor: pointer;
+	display: flex;
+}
+
+.cc-app-list {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.cc-empty {
+	grid-column: 1 / -1;
+	font: 500 11px/1.4 var(--font-text);
+	color: var(--label-2);
+	padding: 8px;
+	text-align: center;
+}
+
+/* ═════ Glass material (1.9.5) ═════ */
+.bloom.ink.material-glass {
+	--notch-bg: rgba(10, 10, 12, 0.72) !important;
+	--surface-bg: rgba(10, 10, 12, 0.72) !important;
+	--label-2: rgba(235, 235, 245, 0.7);
+	color: var(--label);
+}
+
+/* Full-white text and a soft lift so the pill reads on light wallpapers. */
+.bloom.ink.material-glass .main-row,
+.bloom.ink.material-glass .main-row .time,
+.bloom.ink.material-glass .main-row .label {
+	color: var(--label);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.bloom.ink.material-glass::before {
+	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Open panels get a denser tint so content stays readable. */
+.bloom.ink.material-glass.is-open {
+	--notch-bg: rgba(6, 6, 8, 0.96) !important;
+	--surface-bg: rgba(6, 6, 8, 0.96) !important;
+}
+
+/* Specular top edge and a fine inner border. */
+.bloom.ink.material-glass::after {
+	background: linear-gradient(rgba(255, 255, 255, 0.1), transparent 35%);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+	-webkit-mask-image: none;
+	mix-blend-mode: normal;
+	opacity: 1;
+}
+
+/* Open, the panel is near-black: no grey wash, only a faint top edge. */
+.bloom.ink.material-glass.is-open::after {
+	background: linear-gradient(rgba(255, 255, 255, 0.04), transparent 20%);
+}
+
+.bloom.ink.material-glass .cc-cell,
+.bloom.ink.material-glass .cc-header-btn {
+	background: rgba(120, 120, 128, 0.26);
+}
+
+/* Transparency effects off: Glass falls back to Ink. */
+@media (prefers-reduced-transparency: reduce) {
+	.bloom.ink.material-glass,
+	.bloom.ink.material-glass.is-open {
+		--notch-bg: var(--ink) !important;
+		--surface-bg: var(--ink) !important;
+	}
+
+	.bloom.ink.material-glass::after {
+		background: none;
+	}
+}
+
+.command-center-content-minimal {
+	overflow-y: auto;
+}
+
+/* ── Open header: keep weather / time / battery clear of the big corners ── */
+.bloom.ink.island-pill.is-open .main-row {
+	padding: 4px 26px 0;
+	box-sizing: border-box;
+}
+
+.bloom.ink.island-notch.is-open .main-row {
+	padding: 0 14px;
+	box-sizing: border-box;
+}
+
+.screen.edge-bottom .bloom.ink.island-pill.is-open .main-row {
+	padding: 0 26px 4px;
+}
+
+/* ── Command Center drag: lift, placeholder, fixed badges ── */
+.cc-cell.cc-placeholder {
+	background: rgba(255, 255, 255, 0.06);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+	animation: none;
+}
+
+.cc-cell.cc-placeholder > * {
+	visibility: hidden;
+}
+
+.cc-cell.cc-lifted {
+	width: 100%;
+	height: 100%;
+	transform: scale(1.06);
+	opacity: 0.95;
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+	cursor: grabbing;
+	animation: none;
+	background: rgba(60, 60, 66, 0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cc-cell.cc-lifted {
+		transform: none;
+	}
+}
+
+.cc-badge {
+	width: 20px;
+	height: 20px;
+	min-width: 20px;
+	min-height: 20px;
+	flex: none;
+}
+
+.cc-badge-remove {
+	top: -6px;
+	left: -6px;
+}
+
+.cc-badge-size {
+	top: -6px;
+	right: -6px;
+}
+
+/* Increased contrast (Windows contrast themes / "more contrast"). */
+@media (prefers-contrast: more) {
+	:root {
+		--label-2: rgba(235, 235, 245, 0.86);
+		--island-hairline: rgba(255, 255, 255, 0.4);
+		--fill: rgba(120, 120, 128, 0.5);
+	}
+
+	.cc-cell,
+	.widget,
+	.home-activity,
+	.home-todo-add,
+	.cmd-field {
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+	}
+}

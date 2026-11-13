@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest an idea or improvement for DynIs. Please discuss it here before opening a PR.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What should DynIs do, and what problem does it solve for you?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Which part of DynIs does this relate to?
+      options:
+        - Island / live activities
+        - Music / Spotify
+        - Browser extension
+        - Widgets / Home
+        - Control Center
+        - Calendar
+        - Linux
+        - Settings / setup
+        - Something new
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything else?
+      description: Mockups, examples from other apps, or how you work around it today.
+    validations:
+      required: false

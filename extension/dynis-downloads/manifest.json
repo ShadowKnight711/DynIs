@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "DynIs Downloads & Media",
+  "version": "1.1.0",
+  "description": "Shows your downloads and what’s playing on YouTube, YouTube Music, Spotify, Apple Music and SoundCloud in the DynIs island on this PC, with its controls. Nothing leaves your computer.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuu1Fo32fGYfFhA6c3vdduqFtJ2JzC9AlhQdy+pIosbjggpioXEl0u5/7m3fNhkawijE9LRPjuOzNLJfloS2yo+w5QmNVtpakm7PkVlA5k1P79z+FBExS+AFF5GejMReLSFSeTjPaSQlEHIIuO+133Zn3m1im4d/TE+6fIzfnmksBSG3d8iThkAdmg06a+REPihzhfmPOwt8CFvN2ZmheRu10pqgZeYcczyGzoXx/bKtdwvOmm+oCL5D2IZhWRZClrmbk1OxcaNmw4GH9yrNKluDZFgewMzfBgarCl7DgvH4OTRkbwsGj7rk95uWq+nHi9zvkJKfq9Fmqggfh/xHkXwIDAQAB",
+  "permissions": [
+    "downloads",
+    "nativeMessaging",
+    "storage",
+    "scripting"
+  ],
+  "optional_host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://music.youtube.com/*",
+        "https://open.spotify.com/*",
+        "https://music.apple.com/*",
+        "https://soundcloud.com/*"
+      ],
+      "js": [
+        "media-core.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "minimum_chrome_version": "110"
+}

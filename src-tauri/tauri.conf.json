@@ -1,0 +1,166 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "DynIs",
+  "version": "2.2.0",
+  "identifier": "com.kevin.dynis",
+  "build": {
+    "beforeDevCommand": "bun run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "bun run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "DynIs",
+        "width": 1920,
+        "height": 420,
+        "x": 0,
+        "y": 0,
+        "decorations": false,
+        "transparent": true,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "closable": false,
+        "alwaysOnTop": true,
+        "visibleOnAllWorkspaces": true,
+        "focus": false,
+        "skipTaskbar": true,
+        "shadow": false,
+        "visible": false,
+        "dragDropEnabled": true
+      },
+      {
+        "label": "settings",
+        "title": "Settings",
+        "url": "settings.html",
+        "width": 620,
+        "height": 480,
+        "decorations": false,
+        "transparent": true,
+        "resizable": true,
+        "maximizable": false,
+        "minimizable": false,
+        "closable": false,
+        "alwaysOnTop": false,
+        "visibleOnAllWorkspaces": false,
+        "focus": true,
+        "skipTaskbar": false,
+        "shadow": true,
+        "visible": false,
+        "center": true
+      },
+      {
+        "label": "overlay",
+        "title": "Overlay",
+        "url": "overlay.html",
+        "width": 1920,
+        "height": 1080,
+        "x": 0,
+        "y": 0,
+        "decorations": false,
+        "transparent": true,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "closable": false,
+        "alwaysOnTop": true,
+        "visibleOnAllWorkspaces": true,
+        "focus": false,
+        "skipTaskbar": true,
+        "shadow": false,
+        "visible": false
+      },
+      {
+        "label": "dock",
+        "title": "DynIs Dock",
+        "url": "dock.html",
+        "width": 1920,
+        "height": 600,
+        "x": 0,
+        "y": 480,
+        "decorations": false,
+        "transparent": true,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "closable": false,
+        "alwaysOnTop": true,
+        "visibleOnAllWorkspaces": true,
+        "focus": false,
+        "skipTaskbar": true,
+        "shadow": false,
+        "visible": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://i.scdn.co https://mosaic.scdn.co https://image-cdn-ak.spotifycdn.com https://image-cdn-fa.spotifycdn.com https://i.ytimg.com https://*.ytimg.com https://lh3.googleusercontent.com https://*.ggpht.com https://*.mzstatic.com https://*.sndcdn.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' ipc: http://ipc.localhost https://accounts.spotify.com https://api.spotify.com https://api.open-meteo.com https://air-quality-api.open-meteo.com https://geocoding-api.open-meteo.com https://ipapi.co http://ip-api.com"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "createUpdaterArtifacts": false,
+    "targets": "all",
+    "publisher": "Kevin",
+    "copyright": "Copyright © 2026 Kevin. Based on Bloom, Copyright © 2026 Sehajveer Singh. GPLv3.",
+    "category": "Utility",
+    "shortDescription": "DynIs - a notch and dock for Windows",
+    "longDescription": "DynIs replaces the Windows taskbar with a dock and adds a notch for media, quick controls and status.",
+    "windows": {
+      "webviewInstallMode": {
+        "type": "embedBootstrapper"
+      },
+      "nsis": {
+        "installerHooks": "./windows/hooks.nsh"
+      }
+    },
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": {
+      "../extension/dynis-downloads/": "extension/",
+      "../extension/dynis-downloads-firefox/": "extension-firefox/"
+    },
+    "macOS": {
+      "minimumSystemVersion": "12.0",
+      "signingIdentity": null,
+      "dmg": {
+        "appPosition": {
+          "x": 180,
+          "y": 170
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 170
+        }
+      }
+    },
+    "linux": {
+      "deb": {
+        "depends": [
+          "libwebkit2gtk-4.1-0",
+          "libgtk-3-0",
+          "libayatana-appindicator3-1",
+          "xdg-utils"
+        ],
+        "section": "utils"
+      },
+      "appimage": {
+        "bundleMediaFramework": false
+      },
+      "rpm": {
+        "depends": [
+          "webkit2gtk4.1",
+          "libayatana-appindicator-gtk3",
+          "xdg-utils"
+        ]
+      }
+    }
+  }
+}

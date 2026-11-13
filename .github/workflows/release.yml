@@ -1,0 +1,98 @@
+name: Release
+
+# Push a tag like v2.2.0 (after `bun run bump 2.2.0` is committed) to build
+# the Windows installer and the Linux .deb + AppImage and publish them as a
+# GitHub Release. The notes come from that version's section of CHANGELOG.md.
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    outputs:
+      body: ${{ steps.notes.outputs.body }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Tags for older versions (published by hand with their installers)
+      # must not get installers built from newer code.
+      - name: Tag must match the app version
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          APP=$(sed -n 's/^  "version": "\(.*\)",/\1/p' src-tauri/tauri.conf.json | head -n 1)
+          if [ "$VERSION" != "$APP" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match the app version $APP; nothing is built."
+            exit 1
+          fi
+      - name: Release notes from CHANGELOG.md
+        id: notes
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          BODY=$(awk -v v="$VERSION" '
+            $0 ~ "^## "v"( |$)" { on=1; next }
+            on && /^## / { exit }
+            on { print }
+          ' CHANGELOG.md)
+          [ -n "$BODY" ] || BODY="See CHANGELOG.md."
+          {
+            echo "body<<DYNIS_EOF"
+            echo "$BODY"
+            echo "DYNIS_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: notes
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            bundles: nsis
+          - platform: ubuntu-22.04
+            bundles: deb,appimage
+    runs-on: ${{ matrix.platform }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Linux build packages
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev libssl-dev libdbus-1-dev patchelf file
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          toolchain: stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: src-tauri
+
+      - run: bun install --frozen-lockfile
+      - run: bun test
+      - name: Rust tests
+        run: cargo test --locked
+        working-directory: src-tauri
+
+      - name: Build and publish
+        uses: tauri-apps/tauri-action@84b9d35b5fc46c1e45415bdb6144030364f7ebc5 # v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: DynIs ${{ github.ref_name }}
+          releaseBody: ${{ needs.notes.outputs.body }}
+          releaseDraft: false
+          prerelease: false
+          args: --bundles ${{ matrix.bundles }}

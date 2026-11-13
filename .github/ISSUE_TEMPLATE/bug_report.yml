@@ -1,0 +1,69 @@
+name: Bug report
+description: Something in DynIs isn't working as expected
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: input
+    id: dynis-version
+    attributes:
+      label: DynIs version
+      description: "Settings → About (e.g. 2.1.0)"
+      placeholder: "2.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating system
+      description: "Windows: Win+R → `winver`. Linux: distribution, version and session (Xorg or Wayland)."
+      placeholder: "Windows 11 24H2 / Zorin OS 17.3 on Xorg"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Which part of DynIs?
+      options:
+        - Island / live activities
+        - Music / now playing
+        - Spotify
+        - Browser extension (downloads or web media)
+        - Widgets / Home
+        - Control Center
+        - Google Calendar
+        - Dock (Windows)
+        - Settings / setup
+        - Installer / startup
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What went wrong, and what did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open DynIs
+        2. Play a song in Spotify…
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: media
+    attributes:
+      label: Screenshots or recordings
+      description: Drag and drop files here. Visual bugs are much easier to fix with a recording. Note that Glass (live blur) hides DynIs from captures; switch to Ink or Glass to record it.
+    validations:
+      required: false

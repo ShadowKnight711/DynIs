@@ -1,0 +1,68 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Bun is the root package manager
+/package-lock.json
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Tauri keys
+*.key
+*.key.pub
+
+#skills
+.agents/*
+skills-lock.json
+
+#agents
+.mimocode
+
+# Build output
+src-tauri/target
+src-tauri/gen/schemas
+website/dist
+
+# Installers and packages (published as GitHub Release assets instead)
+*.exe
+*.msi
+*.deb
+*.rpm
+*.AppImage
+*.dmg
+*.zip
+web-ext-artifacts/
+# The Firefox package is rebuilt by scripts/build-extension.mjs
+extension/dynis-downloads-firefox/*.xpi
+
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+settings.json
+
+# Bloom's original marketing site (Bloom branding, and a commercial song in its
+# assets): not part of DynIs and not published.
+website/

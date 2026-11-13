@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DynIs Downloads &amp; Media</title>
+<style>
+	:root { color-scheme: dark; }
+	body { margin: 0; padding: 20px; background: #000; color: #fff; font: 13px/1.45 "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; }
+	h1 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
+	p { color: rgba(255, 255, 255, 0.7); margin: 0 0 12px; max-width: 46em; }
+	button { font: inherit; color: #fff; background: rgba(255, 255, 255, 0.12); border: 0; border-radius: 8px; padding: 7px 14px; cursor: pointer; }
+	button:hover { background: rgba(255, 255, 255, 0.18); }
+	button:focus-visible { outline: 2px solid #bf5af2; outline-offset: 2px; }
+	#status { margin-left: 10px; color: rgba(255, 255, 255, 0.7); }
+</style>
+</head>
+<body>
+	<h1>Media from other sites</h1>
+	<p>
+		YouTube, YouTube Music, Spotify, Apple Music and SoundCloud work without this. To show media from any other
+		site that plays audio or video, allow DynIs to read it on all sites, then turn on "Other Sites" in DynIs → Settings
+		→ Browser. Only what the site publishes as now playing (title, artist, artwork, position) is read.
+	</p>
+	<button id="toggle" type="button">Allow Other Sites</button><span id="status" role="status"></span>
+	<script src="options.js"></script>
+</body>
+</html>
