@@ -45,7 +45,7 @@ export const MAC_FEATURES: Feature[] = [
 ];
 
 /**
- * Linux (2.2): mirrors the "linux" list in platform/mod.rs. No IDM, live
+ * Linux (2.1): mirrors the "linux" list in platform/mod.rs. No IDM, live
  * blur, DynIs dock, Wi-Fi/Bluetooth panels or per-app volume.
  */
 export const LINUX_FEATURES: Feature[] = [

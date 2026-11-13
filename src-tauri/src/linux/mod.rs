@@ -1,4 +1,4 @@
-//! The Linux backend (DynIs 2.2: Zorin OS and other GNOME/Ubuntu desktops).
+//! The Linux backend (DynIs 2.1: Zorin OS and other GNOME/Ubuntu desktops).
 //! The UI is the same React app; this module answers the commands it calls
 //! with Linux implementations, like `crate::mac` does on macOS. Features Linux
 //! can't offer are reported by `platform_info` and hidden by the UI; the few

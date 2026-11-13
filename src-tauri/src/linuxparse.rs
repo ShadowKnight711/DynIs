@@ -1,4 +1,4 @@
-//! Pure parsing for the Linux backend (DynIs 2.2, Zorin OS and other
+//! Pure parsing for the Linux backend (DynIs 2.1, Zorin OS and other
 //! GNOME/Ubuntu desktops): desktop entries, MPRIS players, PipeWire/PulseAudio
 //! volume, UPower, backlight, BlueZ and window geometry. Compiled on every
 //! platform so it is unit-tested on the Windows build machine too.

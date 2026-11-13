@@ -1,21 +1,21 @@
 # DynIs for Linux (beta)
 
-DynIs 2.2 runs on Zorin OS 17 and other Ubuntu 22.04 / 24.04-based GNOME desktops. It's the same app as on Windows, with a Linux backend (`src-tauri/src/linux`).
+DynIs 2.1 runs on Zorin OS 18 and other GNOME desktops based on Ubuntu 24.04 or newer (the GitHub build, made on Ubuntu 22.04, also runs on Zorin 17). It's the same app as on Windows, with a Linux backend (`src-tauri/src/linux`).
 
 ## Install
 
 **.deb (recommended on Zorin/Ubuntu):**
 
 ```bash
-sudo apt install ./DynIs_2.2.0_amd64.deb
+sudo apt install ./DynIs_2.1.0_amd64.deb
 ```
 
 **AppImage:** AppImages need FUSE 2, which Ubuntu 22.04+ doesn't install by default.
 
 ```bash
-sudo apt install libfuse2        # Zorin 17 / Ubuntu 22.04 (on 24.04: libfuse2t64)
-chmod +x DynIs_2.2.0_amd64.AppImage
-./DynIs_2.2.0_amd64.AppImage
+sudo apt install libfuse2t64      # Zorin 18 / Ubuntu 24.04 (on 22.04: libfuse2)
+chmod +x DynIs_2.1.0_amd64.AppImage
+./DynIs_2.1.0_amd64.AppImage
 ```
 
 DynIs starts with setup the first time. "Launch at Login" in Settings adds `~/.config/autostart/DynIs.desktop`.

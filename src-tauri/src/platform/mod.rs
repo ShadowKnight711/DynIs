@@ -46,7 +46,7 @@ pub fn platform_features() -> PlatformInfo {
             "volume", "lock", "screenshot", "calendar", "spotify",
         ],
     );
-    // Linux (2.2): no IDM, live blur, DynIs dock, Wi-Fi/Bluetooth panels or
+    // Linux (2.1): no IDM, live blur, DynIs dock, Wi-Fi/Bluetooth panels or
     // per-app volume; the rest has a Linux backend (see crate::linux).
     #[cfg(target_os = "linux")]
     let (os, features) = (

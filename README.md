@@ -73,7 +73,7 @@
 
 ### Linux (beta)
 
-Built for Zorin OS and other Ubuntu-based GNOME desktops.
+Built for Zorin OS 18 and other GNOME desktops based on Ubuntu 24.04 or newer.
 
 - **.deb:** `sudo apt install ./DynIs_<version>_amd64.deb`
 - **AppImage:** `chmod +x DynIs_<version>_amd64.AppImage && ./DynIs_<version>_amd64.AppImage`
@@ -110,7 +110,7 @@ Linux builds and their system packages are covered in [docs/LINUX-BUILD.md](docs
 
 - [x] Spotify (2.1)
 - [x] Web media from the browser extension (2.1)
-- [ ] Linux, Zorin OS first (2.2, beta)
+- [x] Linux, Zorin OS first (2.1, beta)
 - [ ] macOS (planned)
 - [ ] Signed releases
 

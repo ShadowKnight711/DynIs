@@ -1,6 +1,6 @@
 [package]
 name = "bloom"
-version = "2.2.0"
+version = "2.1.0"
 description = ""
 authors = ["Kevin", "sehaz (original Bloom author)"]
 edition = "2021"
@@ -97,7 +97,7 @@ rusqlite = { version = "0.37", features = ["bundled"] }
 webview2-com = "0.38"
 rustfft = "6"
 
-# Linux backend (2.2): MPRIS, UPower, BlueZ, logind and GNOME over D-Bus
+# Linux backend (2.1): MPRIS, UPower, BlueZ, logind and GNOME over D-Bus
 # (zbus), X11 window management (x11rb, pure Rust), GTK window hints, the
 # Secret Service for sign-in tokens.
 [target.'cfg(target_os = "linux")'.dependencies]

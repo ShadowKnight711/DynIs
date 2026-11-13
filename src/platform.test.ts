@@ -5,7 +5,7 @@ import { LINUX_FEATURES, MAC_FEATURES, ccKindSupported, has } from "./platform";
 describe("platform features", () => {
 	test("the macOS list matches the Rust backend", () => {
 		const rust = readFileSync(new URL("../src-tauri/src/platform/mod.rs", import.meta.url), "utf8");
-		const block = rust.slice(rust.indexOf('"macos",'), rust.indexOf("// Linux (2.2)"));
+		const block = rust.slice(rust.indexOf('"macos",'), rust.indexOf("// Linux (2.1)"));
 		const listed = [...block.matchAll(/"([a-z-]+)"/g)].map((m) => m[1]).filter((f) => f !== "macos");
 		expect(listed.sort()).toEqual([...MAC_FEATURES].sort());
 	});

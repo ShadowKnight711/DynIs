@@ -1,15 +1,12 @@
 # Changelog
 
-## 2.2.0 (in progress)
-- DynIs for Linux (beta), built for Zorin OS and other Ubuntu-based GNOME desktops: a .deb and an AppImage. The island floats at the top of the screen on every workspace and steps aside for maximized and full-screen apps (Smart and Overlay; Linux never reserves screen space).
-- On Linux: now playing for every MPRIS player (Spotify, Firefox, Chromium, Brave, Chrome, VLC, Rhythmbox…), battery and headphones battery, volume, screen brightness on laptops, Keep Awake, Snap, lock, clipboard, notifications (opt-in), system stats, Spotify, Google Calendar and the browser extension. Not on Linux: Internet Download Manager, live blur, the DynIs dock, and the Wi-Fi and Bluetooth panels.
-
 ## 2.1.0 (2026-11-12)
 - Spotify: connect your own Spotify app (setup or Settings → Notch → Spotify) to get Up Next with artwork (click a song to skip to it), like and unlike, shuffle and repeat, seeking, choosing the device that plays, search (play now or add to the queue) and your playlists. Reading works on Spotify Free; controlling playback needs Premium. DynIs talks to Spotify only while Spotify is playing and the island is open.
 - A step-by-step Spotify guide in setup and Settings, with a Copy button for the Redirect URI and fixes for the usual errors. The Google Calendar guide lists its usual errors too.
 - Web media: the browser extension (now "DynIs Downloads & Media" 1.1.0) shows what's playing on YouTube, YouTube Music, Spotify, Apple Music and SoundCloud, labelled like "YouTube · Brave", with the up next list. Play/pause, next, previous (restarts the song after 3 seconds), seeking and the up next rows control the tab. It replaces the browser's own media entry, which had no queue. Optional: any other site that publishes what's playing.
 - Settings → Browser: install the extension, check it's connected, and turn each site on or off. Only media information is read, and nothing leaves your PC.
 - Reload the extension after updating (and sign the Firefox one again).
+- DynIs for Linux (beta, Zorin OS 18 / Ubuntu 24.04+): a .deb and an AppImage. The island floats at the top of the screen on every workspace and steps aside for maximized and full-screen apps (Smart and Overlay; Linux never reserves screen space). Now playing for every MPRIS player (Spotify, Firefox, Chromium, Brave, Chrome, VLC, Rhythmbox…), battery and headphones battery, volume, screen brightness on laptops, Keep Awake, Snap, lock, clipboard, notifications (opt-in), system stats, Spotify, Google Calendar and the browser extension. Not on Linux: Internet Download Manager, live blur, the DynIs dock, and the Wi-Fi and Bluetooth panels.
 
 ## 2.0.1 (2026-11-10)
 - Maximized windows use the whole screen again. The island now defaults to Smart: it floats over windows and steps aside for maximized and full-screen apps, without reserving a strip at the top. If you were on Fixed without choosing it, you're moved to Smart once.

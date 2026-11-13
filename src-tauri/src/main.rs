@@ -46,7 +46,7 @@ mod window_region;
 #[cfg(target_os = "macos")]
 mod mac;
 
-// The Linux backend (2.2: Zorin OS, Ubuntu and other GNOME desktops).
+// The Linux backend (2.1: Zorin OS, Ubuntu and other GNOME desktops).
 #[cfg(target_os = "linux")]
 mod linux;
 
